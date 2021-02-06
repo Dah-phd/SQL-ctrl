@@ -5,8 +5,16 @@ import tkinter as tk
 
 def f_date(date):
     # formats date from investing to MySQL format
-    date = date.split('/')
-    date = '20'+str(date[2])+'-'+str(date[0])+'-'+str(date[1])
+    if 'e' in date or 'a' in date or 'o' in date or 'c' in date or 'u' in date or 'p' in date:
+        months = {'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04', 'may': '05', 'jun': '06',
+                  'jul': '07', 'aug': '08', 'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12'}
+        date = date.replace(',', '')
+        date = date.lower()
+        date = date.split(' ')
+        date = date[2]+'-'+months[date[0]]+'-'+date[1]
+    elif '/' in date:
+        date = date.split('/')
+        date = '20'+str(date[2])+'-'+str(date[0])+'-'+str(date[1])
     return date
 
 
