@@ -5,7 +5,7 @@ if __name__ == '__main__':
     import Controler
 
 
-def export_csv(self, name, _list=[]):
+def export_csv(self, name, _list=''):
     base = self.freeze_tab()
     if _list == '':
         names = base.copy()
@@ -27,7 +27,7 @@ def export_csv(self, name, _list=[]):
     df.to_csv(name, index=False)
 
 
-def export(self, _list=[]):
+def export(self, _list=''):
     base = self.freeze_tab()
     if _list == '':
         names = base.copy()
