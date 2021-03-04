@@ -39,16 +39,24 @@ def export_csv(self, name, _list=''):
 
 
 def export(self, _list=''):
-    base = self.freeze_tab()
     if _list == '':
-        names = base.copy()
+        names = ''
+        for name in self.freeze_tab():
+            names += name
+        names = names[:-1]
     else:
-        names = _list.split(',')
-        names.insert(0, 'date_')
-    self.cursor.execute(f'SELECT * FROM {self.table}')
+        names = 'date_,'+_list
+    self.cursor.execute(f'SELECT {names} FROM {self.table}')
     data = [t for t in self.cursor]
     df = {}
-    for t in names:
-        _list = [t1[base.index(t)] for t1 in data]
-        df[t] = _list
+    names = names.split(',')
+    for name in names:
+        df[name] = []
+    for tup in data:
+        for n, name in enumerate(names):
+            df[name].append(tup[n])
     return df
+
+
+def backup(self):
+    pass
