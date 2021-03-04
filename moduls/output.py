@@ -42,7 +42,7 @@ def export(self, _list=''):
     if _list == '':
         names = ''
         for name in self.freeze_tab():
-            names += name
+            names += name + ','
         names = names[:-1]
     else:
         names = 'date_,'+_list
