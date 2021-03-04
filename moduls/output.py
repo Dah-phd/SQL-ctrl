@@ -1,4 +1,5 @@
 import pandas
+import os
 
 if __name__ == '__main__':
     import datetime
@@ -24,7 +25,17 @@ def export_csv(self, name, _list=''):
         name = str(name) + '.csv'
     else:
         name = 'export.csv'
-    df.to_csv(name, index=False)
+    while os.path.isfile(name):
+        if not n:
+            n = 0
+            name = name[:-4]+str(n)+name[-4:]
+            position = 1
+        else:
+            n += 1
+            name = name[:-(4+position)]+str(n)+name[-4:]
+            position = len(str(n))
+    else:
+        df.to_csv(name, index=False)
 
 
 def export(self, _list=''):
@@ -40,7 +51,4 @@ def export(self, _list=''):
     for t in names:
         _list = [t1[base.index(t)] for t1 in data]
         df[t] = _list
-    df = pandas.DataFrame(df)
-    pandas.set_option("display.max_rows", None,
-                      "display.max_columns", None)
     return df
