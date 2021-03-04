@@ -46,7 +46,9 @@ def export(self, _list=''):
         names = names[:-1]
     else:
         names = 'date_,'+_list
-    self.cursor.execute(f'SELECT {names} FROM {self.table}')
+    self.cursor.execute(
+        f'SELECT {names} FROM {self.table} ORDER BY date_ DESC'
+    )
     data = [t for t in self.cursor]
     df = {}
     names = names.split(',')

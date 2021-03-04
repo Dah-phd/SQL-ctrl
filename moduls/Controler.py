@@ -126,27 +126,28 @@ class DATABASE():
     def check_data(self):
         tabs = self.freeze_tab()
         tabs.pop(0)
-        for t in tabs:
-            print('Checking column: ', t)
+        for tab in tabs:
+            print('Checking column: ', tab)
             self.cursor.execute(
-                "SELECT date_, " + t +
-                " FROM " + self.table
+                "SELECT date_, " + tab +
+                " FROM " + self.table +
+                " ORDER BY date_"
             )
             n_val = 0
-            column = [t for t in self.cursor]
-            for t1 in column:
-                if not t1[1]:
-                    print('For date: ', t1[0], '\n The value is: None')
+            rows = [row for row in self.cursor]
+            for row in rows:
+                if not row[1]:
+                    print('For date: ', row[0], '\n The value is: None')
                     self.cursor.execute(
                         "UPDATE " + self.table +
-                        " SET " + t + " = (%s) WHERE date_ = (%s)",
-                        (n_val, t1[0])
+                        " SET " + tab + " = (?) WHERE date_ = (?)",
+                        (n_val, row[0])
                     )
                     print('REPLACED WITH PREVIOUS: ', n_val)
                     self.db.commit()
                 else:
-                    n_val = t1[1]
-            print(t, ' is checked!')
+                    n_val = row[1]
+            print(tab, ' is checked!')
 
 
 print(
